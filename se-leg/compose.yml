@@ -22,7 +22,17 @@ services:
       -initial-cluster-state new
       -data-dir /data
     volumes:
-      - ./data/etcd:/data
+      - ../data/etcd:/data
+
+  mongodb:
+    image: docker.sunet.se/eduid/mongodb
+    expose:
+      - 27017
+    networks:
+      selegdev:
+    volumes:
+      - ../data/mongodb:/data
+      - ../mongodb/etc:/opt/eduid/etc
 
 networks:
   selegdev:
