@@ -9,7 +9,7 @@ services:
       - 2380
       - 4001
     networks:
-      selegdev:
+      dev:
         ipv4_address: 172.16.20.254
     command: >
       -name etcd
@@ -29,13 +29,26 @@ services:
     expose:
       - 27017
     networks:
-      selegdev:
+      dev:
     volumes:
       - ../data/mongodb:/data
-      - ../mongodb/etc:/opt/eduid/etc
+      - ../mongodb/etc:/opt/eduid/etc:ro
+      - ../mongodb/db-scripts:/opt/eduid/db-scripts:ro
+
+  op:
+    image: docker.sunet.se/se-leg/op
+    expose:
+      - 5000
+    networks:
+      dev:
+    volumes:
+      - ../op/etc:/op/etc:ro
+    environment:
+      - SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py
+
 
 networks:
-  selegdev:
+  dev:
     driver: bridge
     ipam:
       driver: default
