@@ -43,6 +43,7 @@ services:
       dev:
     volumes:
       - ../op/etc:/op/etc:ro
+      - ../data/op:/op/data
     environment:
       - SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py
 
