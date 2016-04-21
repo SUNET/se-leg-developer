@@ -11,3 +11,5 @@ PROVIDER_SIGNING_KEY = {
 }
 
 PROVIDER_SUBJECT_IDENTIFIER_HASH_SALT = 'test_salt'
+
+DB_URI = 'mongodb://mongod'
