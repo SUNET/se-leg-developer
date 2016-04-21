@@ -47,6 +47,8 @@ services:
       - ../data/op:/op/data
     environment:
       - SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py
+    depends_on:
+      - redis
 
   redis:
     image: docker.sunet.se/eduid/redis
@@ -55,6 +57,15 @@ services:
     volumes:
       - ../redis/etc:/etc/redis:ro
       - ../data/redis:/data
+
+  rp:
+    image: docker.sunet.se/eduid/eduid-oidc-proofing
+    networks:
+      dev:
+        ipv4_address: 172.16.20.200
+    depends_on:
+      - mongodb
+      - etcd
 
 networks:
   dev:
