@@ -47,6 +47,13 @@ services:
     environment:
       - SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py
 
+  redis:
+    image: docker.sunet.se/eduid/redis
+    networks:
+      dev:
+    volumes:
+      - ../redis/etc:/etc/redis:ro
+      - ../data/redis:/data
 
 networks:
   dev:
