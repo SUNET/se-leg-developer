@@ -41,6 +41,7 @@ services:
       - 5000
     networks:
       dev:
+        ipv4_address: 172.16.20.100
     volumes:
       - ../op/etc:/op/etc:ro
       - ../data/op:/op/data
