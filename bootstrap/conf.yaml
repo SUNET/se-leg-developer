@@ -22,12 +22,11 @@ eduid:
             TOKEN_SERVICE_URL: authn
         oidc_proofing:
             SECRET_KEY: supersecretkey
-            LOG_FILE: logs/oidc_proofing.log
+            LOG_FILE: /tmp/oidc_proofing.log
             LOG_LEVEL: DEBUG
             CLIENT_REGISTRATION_INFO:
                 client_id: client1
                 client_secret: abcdef
             PROVIDER_CONFIGURATION_INFO:
-                issuer: http://se-leg-op
+                issuer: http://op:5000
             MONGO_URI: mongodb://eduid_oidc_proofing:eduid_oidc_proofing_pw@mongodb
-

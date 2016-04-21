@@ -63,9 +63,25 @@ services:
     networks:
       dev:
         ipv4_address: 172.16.20.200
+    environment:
+      - "ETCD_HOST=etcd"
     depends_on:
       - mongodb
       - etcd
+      - bootstrap
+      - op
+
+  bootstrap:
+    image: docker.sunet.se/eduid/eduid-webapp
+    networks:
+      dev:
+    depends_on:
+      - etcd
+    volumes:
+      - ../bootstrap:/bootstrap:ro
+    command: >
+      /opt/eduid/bin/python /bootstrap/etcd_config_bootstrap.py -v --host etcd -c /bootstrap/conf.yaml
+
 
 networks:
   dev:

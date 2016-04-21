@@ -76,7 +76,7 @@ mongo localhost/se_leg_op --eval '
                               "token"
                           ]],
                           "redirect_uris" : [
-                              "http://se-leg-rp:8080/authorization-response"
+                              "http://rp:8080/authorization-response"
                           ],
                           "client_secret" : "abcdef"
                       },
