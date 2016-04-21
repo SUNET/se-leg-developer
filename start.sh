@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f eduid/compose.yml ]; then
+if [ ! -f se-leg/compose.yml ]; then
     echo "Run $0 from the se-leg-developer top level directory"
     exit 1
 fi
@@ -23,5 +23,5 @@ fi
     fi
 done
 
-./bin/docker-compose -f eduid/compose.yml rm -f --all
+./bin/docker-compose -f se-leg/compose.yml rm -f --all
 ./bin/docker-compose -f se-leg/compose.yml up $*
