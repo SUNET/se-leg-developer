@@ -45,9 +45,10 @@ services:
     volumes:
       - ../op/etc:/op/etc:ro
       - ../data/op:/op/data
-      - ../sources/se-leg-op:/op/src:ro
+      - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
-      - SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py
+      - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
+      - "PYTHONPATH=/opt/se-leg/se-leg-op/src"
     depends_on:
       - redis
 
@@ -73,6 +74,8 @@ services:
       - op
     volumes:
       - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
+    environment:
+      - "PYTHONPATH=/opt/eduid/src/eduid-webapp/src"
 
   bootstrap:
     image: docker.sunet.se/eduid/eduid-webapp
