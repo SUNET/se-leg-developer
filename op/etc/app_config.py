@@ -1,7 +1,7 @@
 import os
 
 TESTING = True
-SERVER_NAME = "0.0.0.0:5000"
+SERVER_NAME = "op:5000"
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 
