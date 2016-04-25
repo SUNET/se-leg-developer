@@ -48,7 +48,7 @@ services:
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
-      - "PYTHONPATH=/opt/se-leg/se-leg-op/src"
+      - "PYTHONPATH=/opt/se-leg/se-leg-op/src:/op/src/src"
     depends_on:
       - redis
 
@@ -75,6 +75,17 @@ services:
       - op
     volumes:
       - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
+
+  rp.demo:
+      image: docker.sunet.se/eduid/nginx
+      networks:
+        dev:
+          ipv4_address: 172.16.20.210
+      depends_on:
+        - rp
+      volumes:
+        - ../www/etc/rp.conf/:/etc/nginx/sites-enabled/default:ro
+        - ../www/www-data/:/var/www/:ro
 
   bootstrap:
     image: docker.sunet.se/eduid/eduid-webapp

@@ -10,6 +10,7 @@ fi
 #
 (printf "172.16.20.100\top\n";
  printf "172.16.20.200\trp\n";
+ printf "172.16.20.210\trp.demo.seleg_dev\n";
 ) \
     | while read line; do
     if ! grep -q "^${line}$" /etc/hosts; then
