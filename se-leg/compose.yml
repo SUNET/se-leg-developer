@@ -87,7 +87,7 @@ services:
       - rp
       - op
     volumes:
-      - ../demo/etc/op.conf/:/etc/nginx/sites-enabled/default:ro
+      - ../demo/etc/demo.conf/:/etc/nginx/sites-enabled/default:ro
       - ../demo/www-data/:/var/www/:ro
 
   bootstrap:
