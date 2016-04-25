@@ -76,16 +76,19 @@ services:
     volumes:
       - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
 
-  rp.demo:
-      image: docker.sunet.se/eduid/nginx
-      networks:
-        dev:
-          ipv4_address: 172.16.20.210
-      depends_on:
-        - rp
-      volumes:
-        - ../www/etc/rp.conf/:/etc/nginx/sites-enabled/default:ro
-        - ../www/www-data/:/var/www/:ro
+  demo:
+    image: docker.sunet.se/eduid/nginx
+    expose:
+      - 80
+    networks:
+      dev:
+        ipv4_address: 172.16.20.210
+    depends_on:
+      - rp
+      - op
+    volumes:
+      - ../demo/etc/op.conf/:/etc/nginx/sites-enabled/default:ro
+      - ../demo/www-data/:/var/www/:ro
 
   bootstrap:
     image: docker.sunet.se/eduid/eduid-webapp
