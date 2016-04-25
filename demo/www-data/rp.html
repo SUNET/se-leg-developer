@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>se-leg RP &lt;-&gt; OP demo</title>
+    <title>RP</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -23,39 +23,39 @@
   <body>
     <div class="container">
 	<div class="page-header">
-	    <h1>se-leg RP &lt;-&gt; OP demo</h1>
+	    <h1>se-leg RP demo</h1>
 	</div>
 	<div class="row">
 	    <h2>Ask RP to initiate a proofing</h2>
 	    <div class="col-md-6">
-		<form class="form-inline" id="eppnForm">
+		<form class="form-inline" id="initForm">
 		    <div class="form-group">
 			<label for="eppn">eppn</label>
 			<input type="eppn" class="form-control" id="eppn" placeholder="eppn">
 		    </div>
 		    <button type="submit" class="btn btn-default">Submit</button>
 		</form>
+		<div class="col-md-6 hidden" id="failure"><p class="bg-danger text-center"></p></div>
 	    </div>
 	    <div class="col-md-6">
-		nonce + qr code
+		<div id="nonce"></div>
+		<div id="qr"></div>
 	    </div>
-	</div>
-	<div class="row">
-	    <h2>Do the vetting</h2>
-	    <div class="col-md-6">
-		<form class="form-inline">
-		    <div class="form-group">
-			<label for="nonce">nonce</label>
-			<input type="nonce" class="form-control" id="nonce" placeholder="nonce">
-		    </div>
-		    <button type="submit" class="btn btn-default">Submit</button>
-		</form>
-	    </div>	    
 	</div>
 	<div class="row">
 	    <h2>Data returned to the RP</h2>
-	    
+	    <div class="col-md-6">
+		<form class="form-inline" id="userDataForm">
+		    <div class="form-group">
+			<label for="eppn">eppn</label>
+			<input type="eppn" class="form-control" id="eppn" placeholder="eppn">
+		    </div>
+		    <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+		<div class="col-md-6 hidden" id="failure"><p class="bg-danger text-center"></p></div>
+	    </div>
 	</div>
+	<div id="userData"></div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -64,13 +64,35 @@
         <script>
 	$(document).ready(function() {
 	    console.log( "ready!" );
-	    $("#eppnForm").submit(function(event){
-		console.log( "eppnForm" );
+	    $("#initForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
-		submitEppnForm(this);
+		submitForm(this, "http://demo.seleg_dev/get-state", initSuccess);
 	    });
-	    function submitEppnForm(form){
+	    $("#userDataForm").submit(function(event){
+		// cancels the form submission
+		event.preventDefault();
+		submitForm(this, "http://demo.seleg_dev/proofs", proofSuccess);
+	    });
+	    function initSuccess(callback){		
+		$("#nonce").html("<p><strong>Nonce: </strong>" + callback["nonce"] + "</p>");
+		$("#qr").html(callback["qr_img"]);		
+		console.log("Success!");
+	    }
+	    function proofSuccess(callback){
+		var userData = $("#userData");
+		if (callback["proofs"].length > 0) {
+		    $.each(callback["proofs"], function(index, item){
+			out = "<p><pre>" + JSON.stringify(item, undefined, 4) + "</pre></p>";   
+			userData.html(out);
+		    });
+		} else {
+		    userData.html("<p><pre>No data</pre></p>");
+		}
+		console.log("Success!");
+	    }	    
+	    function submitForm(form, url, success_func){
+		$(form.closest("div")).find('#failure').addClass("hidden");
 		var data = {}
 		// Initiate Variables With Form Content
 		$.each(form.elements, function(i, v){
@@ -78,24 +100,23 @@
 		    data[input.attr("id")] = input.val();
 		    delete data["undefined"];
 		});
-		console.log(data);
-		console.log(JSON.stringify(data))
+		$("#userDataForm").find("input").val(data["eppn"]);
 		$.ajax({
 		    cache: false,
-		    url : "http://demo.seleg_dev/get-state",
+		    url : url,
 		    crossDomain: true,
 		    type: "POST",
 		    dataType : "json",
 		    contentType : 'application/json',
-		    data : JSON.stringify({"eppn": "test"}),
+		    data : JSON.stringify(data),
 		    context : form,
-		    success : function(callback){
-			//Where $(this) => context == FORM
-			console.log(callback);
-			console.log("Success!");
-		    },
+		    success : success_func,
 		    error: function(xhr, resp, text) {
 			console.log(xhr, resp, text);
+			failMessage = $(form.closest("div")).find('#failure');
+			failMessage.removeClass("hidden");
+			failMessage.find("p").append("<strong>" + text + "</strong> " + xhr["responseJSON"]["reason"]);
+
 		    }
 		});
 	    }

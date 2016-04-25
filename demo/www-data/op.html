@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>se-leg RP &lt;-&gt; OP demo</title>
+    <title>OP</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -23,28 +23,15 @@
   <body>
     <div class="container">
 	<div class="page-header">
-	    <h1>se-leg RP &lt;-&gt; OP demo</h1>
+	    <h1>se-leg OP demo</h1>
 	</div>
 	<div class="row">
-	    <h2>Ask RP to initiate a proofing</h2>
+	    <h2>Ask OP to vet user</h2>
 	    <div class="col-md-6">
-		<form class="form-inline" id="eppnForm">
+		<form class="form" id="vettingForm">
 		    <div class="form-group">
-			<label for="eppn">eppn</label>
-			<input type="eppn" class="form-control" id="eppn" placeholder="eppn">
-		    </div>
-		    <button type="submit" class="btn btn-default">Submit</button>
-		</form>
-	    </div>
-	    <div class="col-md-6">
-		nonce + qr code
-	    </div>
-	</div>
-	<div class="row">
-	    <h2>Do the vetting</h2>
-	    <div class="col-md-6">
-		<form class="form-inline">
-		    <div class="form-group">
+			<label for="identity">identity</label>
+			<input type="identity" class="form-control" id="identity" placeholder="identity">
 			<label for="nonce">nonce</label>
 			<input type="nonce" class="form-control" id="nonce" placeholder="nonce">
 		    </div>
@@ -52,10 +39,9 @@
 		</form>
 	    </div>	    
 	</div>
-	<div class="row">
-	    <h2>Data returned to the RP</h2>
-	    
-	</div>
+	</br>
+	<div class="col-md-6 hidden" id="success"><p class="bg-success text-center">Success!</p></div>
+	<div class="col-md-6 hidden" id="failure"><p class="bg-danger text-center"></p></div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -64,13 +50,12 @@
         <script>
 	$(document).ready(function() {
 	    console.log( "ready!" );
-	    $("#eppnForm").submit(function(event){
-		console.log( "eppnForm" );
+	    $("#vettingForm").submit(function(event){		
 		// cancels the form submission
-		event.preventDefault();
-		submitEppnForm(this);
+		event.preventDefault();		
+		submitForm(this, "http://demo.seleg_dev/vetting-result");
 	    });
-	    function submitEppnForm(form){
+	    function submitForm(form, url){
 		var data = {}
 		// Initiate Variables With Form Content
 		$.each(form.elements, function(i, v){
@@ -82,19 +67,21 @@
 		console.log(JSON.stringify(data))
 		$.ajax({
 		    cache: false,
-		    url : "http://rp:8080/get-state",
+		    url : url,
 		    crossDomain: true,
 		    type: "POST",
-		    dataType : "json",
-		    contentType : 'application/json',
-		    data : JSON.stringify({"eppn": "test"}),
+		    data : data,
 		    context : form,
-		    success : function(callback){
-			//Where $(this) => context == FORM
-			console.log(callback);
+		    success : function(callback) {
+			$("#failure").addClass("hidden");
+			$("#success").removeClass("hidden");
 			console.log("Success!");
 		    },
 		    error: function(xhr, resp, text) {
+			$("#success").addClass("hidden");
+			failMessage = $("#failure");
+			failMessage.removeClass("hidden");
+			failMessage.find("p").append("<strong>" + text + "</strong> " + xhr["responseText"]);    
 			console.log(xhr, resp, text);
 		    }
 		});
