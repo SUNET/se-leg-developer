@@ -26,7 +26,7 @@
 	    <h1>se-leg RP demo</h1>
 	</div>
 	<div class="row">
-	    <h2>Ask RP to initiate a proofing</h2>
+	    <h2>Initiate proofing with RP</h2>
 	    <div class="col-md-6">
 		<form class="form-inline" id="initForm">
 		    <div class="form-group">
@@ -43,7 +43,7 @@
 	    </div>
 	</div>
 	<div class="row">
-	    <h2>Data returned to the RP</h2>
+	    <h2>Data returned to the RP from OP</h2>
 	    <div class="col-md-6">
 		<form class="form-inline" id="userDataForm">
 		    <div class="form-group">
@@ -74,18 +74,20 @@
 		event.preventDefault();
 		submitForm(this, "http://demo.seleg_dev/proofs", proofSuccess);
 	    });
-	    function initSuccess(callback){		
+	    function initSuccess(callback){
 		$("#nonce").html("<p><strong>Nonce: </strong>" + callback["nonce"] + "</p>");
-		$("#qr").html(callback["qr_img"]);		
+		$("#qr").html(callback["qr_img"]);
 		console.log("Success!");
 	    }
 	    function proofSuccess(callback){
 		var userData = $("#userData");
 		if (callback["proofs"].length > 0) {
+		    userData.empty();
+		    var elements = $();    
 		    $.each(callback["proofs"], function(index, item){
-			out = "<p><pre>" + JSON.stringify(item, undefined, 4) + "</pre></p>";   
-			userData.html(out);
-		    });
+			elements = elements.add("<p><pre>" + JSON.stringify(item, undefined, 4) + "</pre></p>");
+		    });		    
+		    userData.append(elements);
 		} else {
 		    userData.html("<p><pre>No data</pre></p>");
 		}
