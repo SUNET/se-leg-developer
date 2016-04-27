@@ -65,16 +65,16 @@ services:
     networks:
       dev:
         ipv4_address: 172.16.20.200
+    volumes:
+      - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
     environment:
       - "ETCD_HOST=etcd"
-      - "PYTHONPATH=/opt/eduid/src/eduid-webapp/src:/opt/eduid/eduid-webapp/src"
+      - "PYTHONPATH=/opt/eduid/eduid-webapp/src:/opt/eduid/src/eduid-webapp/src"
     depends_on:
       - mongodb
       - etcd
       - bootstrap
       - op
-    volumes:
-      - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
 
   demo:
     image: docker.sunet.se/eduid/nginx
