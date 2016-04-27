@@ -52,6 +52,24 @@ services:
     depends_on:
       - redis
 
+  op_worker:
+    image: docker.sunet.se/se-leg/op
+    networks:
+      dev:
+        ipv4_address: 172.16.20.110
+    volumes:
+      - ../op/etc:/op/etc:ro
+      - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
+    environment:
+      # http://click.pocoo.org/5/python3/
+      - "LC_ALL=C.UTF-8"
+      - "LANG=C.UTF-8"
+      - "PYTHONPATH=/op/etc:/opt/se-leg/se-leg-op/src:/op/src/src"
+    depends_on:
+      - op
+    command: >
+      /op/env/bin/rq worker -c worker_config
+
   redis:
     image: docker.sunet.se/eduid/redis
     networks:
