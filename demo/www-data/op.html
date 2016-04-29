@@ -52,7 +52,8 @@
 	    console.log( "ready!" );
 	    $("#vettingForm").submit(function(event){		
 		// cancels the form submission
-		event.preventDefault();		
+		event.preventDefault();
+		$("#success").addClass("hidden");
 		submitForm(this, "http://demo.seleg_dev/vetting-result");
 	    });
 	    function submitForm(form, url){
@@ -81,7 +82,7 @@
 			$("#success").addClass("hidden");
 			failMessage = $("#failure");
 			failMessage.removeClass("hidden");
-			failMessage.find("p").append("<strong>" + text + "</strong> " + xhr["responseText"]);    
+			failMessage.find("p").html("<strong>" + text + "</strong> " + xhr["responseText"]);
 			console.log(xhr, resp, text);
 		    }
 		});
