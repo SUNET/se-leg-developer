@@ -12,6 +12,12 @@ If it is the first time you run start.sh it might fail as the bootstrap containe
 
 To run the container with your local repos just symlink the [eduid-webapp](https://github.com/SUNET/eduid-webapp/) repo and [se-leg-op](https://github.com/SUNET/se-leg-op/) repo to the `sources` directory.
 
+
+    se-leg-developer
+    ├── sources
+    │   ├── eduid-webapp -> /.../eduid-webapp/
+    │   └── se-leg-op -> /.../se-leg-op/
+
 To try out the demo, just open your favorite browser to [http://demo.seleg_dev](http://demo.seleg_dev).
 
 ## Future plans
