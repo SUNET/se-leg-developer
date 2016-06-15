@@ -14,51 +14,17 @@ for db in se_leg_op; do
 '
 done
 
-# -------------------------------------------------------------------------------------
-# User eduid_oidc_proofing, readWrite
-#
-for db in eduid_oidc_proofing; do
-    mongo localhost/${db} --eval '
-      if (db.system.users.count({"user": "eduid_oidc_proofing"}) == 0) {
-         db.addUser( { user: "eduid_oidc_proofing", pwd: "eduid_oidc_proofing_pw", roles: ["readWrite"] } );
-      }
-'
-done
 
 # -------------------------------------------------------------------------------------
-# User eduid_oidc_proofing, read
+# User se-leg-rp, readWrite
 #
-for db in eduid_am; do
+for db in se_leg_rp; do
     mongo localhost/${db} --eval '
-      if (db.system.users.count({"user": "eduid_oidc_proofing"}) == 0) {
-         db.addUser( { user: "eduid_oidc_proofing", pwd: "eduid_oidc_proofing_pw", roles: ["read"] } );
+      if (db.system.users.count({"user": "se_leg_rp"}) == 0) {
+         db.addUser( { user: "se_leg_rp", pwd: "se_leg_rp_pw", roles: ["readWrite"] } );
       }
 '
 done
-
-# -------------------------------------------------------------------------------------
-#
-# User eduid_am, readWrite
-#
-for db in eduid_am; do
-    mongo localhost/${db} --eval '
-      if (db.system.users.count({"user": "eduid_am"}) == 0) {
-         db.addUser( { user: "eduid_am", pwd: "eduid_am_pw", roles: ["readWrite"] } );
-      }
-'
-done
-
-#
-# User eduid_am, read
-#
-for db in eduid_signup eduid_dashboard eduid_api; do
-    mongo localhost/${db} --eval '
-      if (db.system.users.count({"user": "eduid_am"}) == 0) {
-         db.addUser( { user: "eduid_am", pwd: "eduid_am_pw", roles: ["read"] } );
-      }
-'
-done
-
 
 # Add initial data in mongodb
 #
@@ -76,7 +42,7 @@ mongo localhost/se_leg_op --eval '
                               "token"
                           ]],
                           "redirect_uris" : [
-                              "http://rp:8080/authorization-response"
+                              "http://rp:5000/authorization-response"
                           ],
                           "client_secret" : "abcdef"
                       },

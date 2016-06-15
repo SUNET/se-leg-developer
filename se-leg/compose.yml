@@ -2,28 +2,6 @@
 version: '2'
 services:
 
-  etcd:
-    image: docker.sunet.se/library/etcd:v2.2.5
-    expose:
-      - 2379
-      - 2380
-      - 4001
-    networks:
-      dev:
-        ipv4_address: 172.16.20.254
-    command: >
-      -name etcd
-      -advertise-client-urls http://172.16.20.254:2379,http://172.16.20.254:4001
-      -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001
-      -initial-advertise-peer-urls http://172.16.20.254:2380
-      -listen-peer-urls http://0.0.0.0:2380
-      -initial-cluster-token etcd-cluster-1
-      -initial-cluster etcd=http://172.16.20.254:2380
-      -initial-cluster-state new
-      -data-dir /data
-    volumes:
-      - ../data/etcd:/data
-
   mongodb:
     image: docker.sunet.se/eduid/mongodb
     expose:
@@ -79,19 +57,20 @@ services:
       - ../data/redis:/data
 
   rp:
-    image: docker.sunet.se/eduid/eduid-oidc-proofing
+    image: docker.sunet.se/se-leg/rp
     networks:
       dev:
         ipv4_address: 172.16.20.200
     volumes:
-      - ../sources/eduid-webapp:/opt/eduid/src/eduid-webapp:ro
+      - ../rp/etc:/rp/etc:ro
+      - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
     environment:
-      - "ETCD_HOST=etcd"
-      - "PYTHONPATH=/opt/eduid/eduid-webapp/src:/opt/eduid/src/eduid-webapp/src"
+      # http://click.pocoo.org/5/python3/
+      - "LC_ALL=C.UTF-8"
+      - "LANG=C.UTF-8"
+      - "PYTHONPATH=/rp/etc:/opt/se-leg/se-leg-rp:/rp/src"
     depends_on:
       - mongodb
-      - etcd
-      - bootstrap
       - op
 
   demo:
@@ -107,18 +86,6 @@ services:
     volumes:
       - ../demo/etc/demo.conf/:/etc/nginx/sites-enabled/default:ro
       - ../demo/www-data/:/var/www/:ro
-
-  bootstrap:
-    image: docker.sunet.se/eduid/eduid-webapp
-    networks:
-      dev:
-    depends_on:
-      - etcd
-    volumes:
-      - ../bootstrap:/bootstrap:ro
-    command: >
-      /opt/eduid/bin/python /bootstrap/etcd_config_bootstrap.py -v --host etcd -c /bootstrap/conf.yaml
-
 
 networks:
   dev:
