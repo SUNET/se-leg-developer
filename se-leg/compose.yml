@@ -80,6 +80,8 @@ services:
     networks:
       dev:
         ipv4_address: 172.16.20.210
+    ports:
+      - "80:80"
     depends_on:
       - rp
       - op
