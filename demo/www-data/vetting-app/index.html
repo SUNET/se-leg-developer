@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>OP</title>
+    <title>se-leg vetting app</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -18,22 +18,29 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->    
+    <![endif]-->
+
+	<style>
+		.success-border {
+			border: 7px solid greenyellow;
+		}
+	</style>
   </head>
   <body>
     <div class="container">
 	<div class="page-header">
-	    <h1>se-leg OP demo</h1>
+	    <h1>se-leg vetting app demo</h1>
 	</div>
 	<div class="row">
-	    <h2>Ask OP to vet user (step 2)</h2>
+	    <h2>Submit vetting data to the OP (step 2)</h2>
 	    <div class="col-md-4">
 		<form class="form" id="vettingForm">
 		    <div class="form-group">
-			<label for="identity">identity</label>
-			<input type="identity" class="form-control" id="identity" placeholder="identity">
 			<label for="nonce">nonce</label>
-			<input type="nonce" class="form-control" id="nonce" placeholder="nonce">
+			<input type="text" class="form-control" name="nonce" id="nonce" placeholder="nonce" data-toggle="modal" data-target="#qrModal">
+			<input type="file" class="hidden" id="qrImage" accept="image/*">
+			<label for="identity">identity</label>
+			<input type="text" class="form-control" name="identity" id="identity" placeholder="identity">
 		    </div>
 		    <button type="submit" class="btn btn-default">Submit</button>
 		</form>
@@ -43,29 +50,51 @@
 	<div class="col-md-4 hidden" id="success"><p class="bg-success text-center">Success!</p></div>
 	<div class="col-md-4 hidden" id="failure"><p class="bg-danger text-center"></p></div>
     </div>
+
+	<div class="modal fade" id="qrModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Capture QR code</h4>
+		  </div>
+		  <div class="modal-body text-center">
+			<video width="480" height="360" autoplay></video>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
      <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        <script>
+	<!-- WebRTC adapter to get support for new API and facingMode constraint in Chrome -->
+	<script src="https://webrtc.github.io/adapter/adapter-1.4.0.js"></script>
+
+	<script src="js/jsqrcode.js"></script>
+	<script src="js/camera.js"></script>
+	<script src="js/vetting-app.js"></script>
+
+	<script>
 	$(document).ready(function() {
 	    console.log( "ready!" );
-	    $("#vettingForm").submit(function(event){		
+	    $("#vettingForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
 		$("#success").addClass("hidden");
-		submitForm(this, "http://demo.seleg_dev/vetting-result");
+		submitForm(this, "/vetting-result");
 	    });
 	    function submitForm(form, url){
-		var data = {}
+		var data = {};
 		// Initiate Variables With Form Content
 		$.each(form.elements, function(i, v){
 			var input = $(v);
-		    data[input.attr("id")] = input.val();
+		    data[input.attr("name")] = input.val();
 		    delete data["undefined"];
 		});
 		console.log(data);
-		console.log(JSON.stringify(data))
+		console.log(JSON.stringify(data));
 		$.ajax({
 		    cache: false,
 		    url : url,
