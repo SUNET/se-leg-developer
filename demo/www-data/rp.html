@@ -67,12 +67,12 @@
 	    $("#initForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
-		submitForm(this, "http://demo.seleg_dev/get-state", initSuccess);
+		submitForm(this, "/get-state", initSuccess);
 	    });
 	    $("#userDataForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
-		submitForm(this, "http://demo.seleg_dev/proofs", proofSuccess);
+		submitForm(this, "/proofs", proofSuccess);
 	    });
 	    function initSuccess(callback){
 		$("#nonce").html("<p><strong>Nonce: </strong>" + callback["nonce"] + "</p>");
@@ -117,7 +117,7 @@
 			console.log(xhr, resp, text);
 			failMessage = $(form.closest("div")).find('#failure');
 			failMessage.removeClass("hidden");
-			failMessage.find("p").append("<strong>" + text + "</strong> " + xhr["responseJSON"]["reason"]);
+			failMessage.find("p").append("<strong>" + text + "</strong> ");
 
 		    }
 		});
