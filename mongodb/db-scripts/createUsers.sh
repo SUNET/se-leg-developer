@@ -36,11 +36,7 @@ mongo localhost/se_leg_op --eval '
   db.clients.update({ "lookup_key" : "client1"},
                     { "lookup_key" : "client1",
                       "data" : {
-                          "response_types" : [[
-                              "code",
-                              "id_token",
-                              "token"
-                          ]],
+                          "response_types" : [["code"]],
                           "redirect_uris" : [
                               "http://rp:5000/authorization-response"
                           ],
