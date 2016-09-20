@@ -6,7 +6,7 @@
 # -------------------------------------------------------------------------------------
 # User se-leg-op, readWrite
 #
-for db in se_leg_op; do
+for db in seleg_op; do
     mongo localhost/${db} --eval '
       if (db.system.users.count({"user": "se_leg_op"}) == 0) {
          db.addUser( { user: "se_leg_op", pwd: "se_leg_op_pw", roles: ["readWrite"] } );
@@ -32,7 +32,7 @@ done
 # -------------------------------------------------------------------------------------
 # se-leg-op clients
 #
-mongo localhost/se_leg_op --eval '
+mongo localhost/seleg_op --eval '
   db.clients.update({ "lookup_key" : "client1"},
                     { "lookup_key" : "client1",
                       "data" : {
