@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+TESTING = True
+SERVER_NAME = 'demo.seleg_dev'
+APPLICATION_ROOT = '/rp'
+PREFERRED_URL_SCHEME = 'https'
+
 # ================#
 #  mongodb config #
 # ================#
@@ -15,7 +20,7 @@ CLIENT_REGISTRATION_INFO = {
 }
 
 PROVIDER_CONFIGURATION_INFO = {
-    'issuer': 'http://op:5000',
+    'issuer': 'https://demo.seleg_dev/op',
 }
 USERINFO_ENDPOINT_METHOD = 'POST'
 

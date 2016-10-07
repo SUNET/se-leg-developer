@@ -67,12 +67,12 @@
 	    $("#initForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
-		submitForm(this, "/get-state", initSuccess);
+		submitForm(this, "/rp/get-state", initSuccess);
 	    });
 	    $("#userDataForm").submit(function(event){
 		// cancels the form submission
 		event.preventDefault();
-		submitForm(this, "/proofs", proofSuccess);
+		submitForm(this, "/rp/proofs", proofSuccess);
 	    });
 	    function initSuccess(callback){
 		$("#nonce").html("<p><strong>Nonce: </strong>" + callback["nonce"] + "</p>");

@@ -1,7 +1,9 @@
 import os
 
 TESTING = True
-SERVER_NAME = "op:5000"
+SERVER_NAME = 'demo.seleg_dev'
+APPLICATION_ROOT = '/op'
+PREFERRED_URL_SCHEME = 'https'
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 

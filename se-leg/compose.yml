@@ -20,6 +20,8 @@ services:
     networks:
       dev:
         ipv4_address: 172.16.20.100
+    ports:
+      - "5000:5000"
     volumes:
       - ../op/etc:/op/etc:ro
       - ../data/op:/op/data
@@ -76,17 +78,18 @@ services:
   demo:
     image: docker.sunet.se/eduid/nginx
     expose:
-      - 80
+      - 443
     networks:
       dev:
         ipv4_address: 172.16.20.210
     ports:
-      - "80:80"
+      - "443:443"
     depends_on:
       - rp
       - op
     volumes:
-      - ../demo/etc/demo.conf/:/etc/nginx/sites-enabled/default:ro
+      - ../demo/etc/demo.conf:/etc/nginx/sites-enabled/default:ro
+      - ../demo/etc/ssl/:/etc/ssl/:ro
       - ../demo/www-data/:/var/www/:ro
 
 networks:

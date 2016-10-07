@@ -38,7 +38,7 @@ mongo localhost/seleg_op --eval '
                       "data" : {
                           "response_types" : [["code"]],
                           "redirect_uris" : [
-                              "http://rp:5000/authorization-response"
+                              "https://demo.seleg_dev/rp/authorization-response"
                           ],
                           "client_secret" : "abcdef"
                       },
