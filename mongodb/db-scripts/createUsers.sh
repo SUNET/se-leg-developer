@@ -36,7 +36,7 @@ mongo localhost/seleg_op --eval '
   db.clients.update({ "lookup_key" : "client1"},
                     { "lookup_key" : "client1",
                       "data" : {
-                          "response_types" : [["code"]],
+                          "response_types" : ["code"],
                           "redirect_uris" : [
                               "https://demo.seleg_dev/rp/authorization-response"
                           ],

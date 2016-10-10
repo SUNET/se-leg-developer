@@ -24,11 +24,13 @@ services:
       - "5000:5000"
     volumes:
       - ../op/etc:/op/etc:ro
+      - ../demo/etc/ssl/rootCA.pem:/op/ssl/rootCA.pem:ro
       - ../data/op:/op/data
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
       - "PYTHONPATH=/opt/se-leg/se-leg-op/src:/op/src/src"
+      - "REQUESTS_CA_BUNDLE=/op/ssl/rootCA.pem"
     depends_on:
       - redis
 
@@ -39,12 +41,14 @@ services:
         ipv4_address: 172.16.20.110
     volumes:
       - ../op/etc:/op/etc:ro
+      - ../demo/etc/ssl/rootCA.pem:/op/ssl/rootCA.pem:ro
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       # http://click.pocoo.org/5/python3/
       - "LC_ALL=C.UTF-8"
       - "LANG=C.UTF-8"
       - "PYTHONPATH=/op/etc:/opt/se-leg/se-leg-op/src:/op/src/src"
+      - "REQUESTS_CA_BUNDLE=/op/ssl/rootCA.pem"
     depends_on:
       - op
     command: >
@@ -65,12 +69,14 @@ services:
         ipv4_address: 172.16.20.200
     volumes:
       - ../rp/etc:/rp/etc:ro
+      - ../demo/etc/ssl/rootCA.pem:/rp/ssl/rootCA.pem:ro
       - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
     environment:
       # http://click.pocoo.org/5/python3/
       - "LC_ALL=C.UTF-8"
       - "LANG=C.UTF-8"
       - "PYTHONPATH=/rp/etc:/opt/se-leg/se-leg-rp:/rp/src"
+      - "REQUESTS_CA_BUNDLE=/rp/ssl/rootCA.pem"
     depends_on:
       - mongodb
       - op

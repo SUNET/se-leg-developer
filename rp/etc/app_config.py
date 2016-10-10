@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-TESTING = True
+DEBUG = True
 SERVER_NAME = 'demo.seleg_dev'
 APPLICATION_ROOT = '/rp'
 PREFERRED_URL_SCHEME = 'https'
