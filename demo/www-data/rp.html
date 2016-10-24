@@ -38,7 +38,7 @@
 		<div class="col-md-6 hidden" id="failure"><p class="bg-danger text-center"></p></div>
 	    </div>
 	    <div class="col-md-6">
-		<div id="nonce"></div>
+		<div id="qrcode"></div>
 		<div id="qr"></div>
 	    </div>
 	</div>
@@ -75,7 +75,7 @@
 		submitForm(this, "/rp/proofs", proofSuccess);
 	    });
 	    function initSuccess(callback){
-		$("#nonce").html("<p><strong>Nonce: </strong>" + callback["nonce"] + "</p>");
+		$("#qrcode").html("<p><strong>QR code: </strong>" + callback["qr_code"] + "</p>");
 		$("#qr").html(callback["qr_img"]);
 		console.log("Success!");
 	    }
