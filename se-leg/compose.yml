@@ -89,7 +89,7 @@ services:
       dev:
         ipv4_address: 172.16.20.210
     ports:
-      - "443:443"
+      - "127.0.0.1:443:443"
     depends_on:
       - rp
       - op
