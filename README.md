@@ -18,3 +18,23 @@ To run the container with your local repos just symlink the [se-leg-rp](https://
 
 To try out the demo, just open your favorite browser to [http://demo.seleg_dev](http://demo.seleg_dev).
 
+### How to add another RP
+
+To use your own RP with the OP you have to register it in the MongoDB. The easiest way to do that is to add your client configuration to the end of `$REPO/mongodb/db-scripts/createUsers.sh`. This script will be run as soon as the MongoDB container starts.
+
+An example:
+```
+mongo localhost/seleg_op --eval '
+  db.clients.update({ "lookup_key" : "your_client_id"},
+                    { "lookup_key" : "your_client_id",
+                      "data" : {
+                          "response_types" : ["code"],
+                          "redirect_uris" : [
+                              "https://url/to/your/authorization-response/endpoint/"
+                          ],
+                          "client_secret" : "a_secret"
+                      },
+                    }, upsert=true)
+'
+```
+
