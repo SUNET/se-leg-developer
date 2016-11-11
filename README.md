@@ -16,7 +16,7 @@ To run the container with your local repos just symlink the [se-leg-rp](https://
     │   ├── se-leg-rp -> /.../se-leg-rp/
     │   └── se-leg-op -> /.../se-leg-op/
 
-To try out the demo, just open your favorite browser to [http://demo.seleg_dev](http://demo.seleg_dev).
+To try out the demo, just open your favorite browser to [https://demo.seleg_dev](https://demo.seleg_dev).
 
 ### How to add another RP
 
