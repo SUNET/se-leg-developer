@@ -38,10 +38,23 @@ mongo localhost/seleg_op --eval '
                       "data" : {
                           "response_types" : ["code"],
                           "redirect_uris" : [
-                              "https://demo.seleg_dev/rp/authorization-response"
+                              "https://demo.seleg_dev/se-leg-rp/authorization-response"
                           ],
                           "client_secret" : "abcdef"
                       },
                     }, upsert=true)
 '
 
+mongo localhost/seleg_op --eval '
+  db.clients.update({ "lookup_key" : "client2"},
+                    { "lookup_key" : "client2",
+                      "data" : {
+                          "response_types" : ["code"],
+                          "redirect_uris" : [
+                              "https://demo.seleg_dev/nstic-rp/authorization-response"
+                          ],
+                          "client_secret" : "abcdef",
+                          "vetting_policy" : "POST_AUTH"
+                      },
+                    }, upsert=true)
+'

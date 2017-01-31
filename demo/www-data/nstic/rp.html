@@ -23,7 +23,7 @@
   <body>
     <div class="container">
 	<div class="page-header">
-	    <h1>se-leg RP demo</h1>
+	    <h1>NSTIC RP demo</h1>
 	</div>
 	<div class="row">
 	    <h2>Initiate proofing with RP (step 1)</h2>
@@ -56,7 +56,24 @@
 	    </div>
 	</div>
 	<div id="userData"></div>
+	<div class="row">
+	    <h2>Use RP to request userinfo from OP (step 4)</h2>
+	    <div class="col-md-6">
+		<form class="form-inline" id="userInfoForm">
+		    <div class="form-group">
+			<label for="eppn">eppn</label>
+			<input type="eppn" class="form-control" id="eppn" placeholder="eppn">
+		    </div>
+		    <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+		<div class="col-md-6 hidden" id="failure"><p class="bg-danger text-center"></p></div>
+	    </div>
+	</div>
+	<div id="userInfo"></div>
     </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
      <!-- Latest compiled and minified JavaScript -->
@@ -65,62 +82,73 @@
 	$(document).ready(function() {
 	    console.log( "ready!" );
 	    $("#initForm").submit(function(event){
-		// cancels the form submission
-		event.preventDefault();
-		submitForm(this, "/se-leg-rp/get-state", initSuccess);
+			// cancels the form submission
+			event.preventDefault();
+			submitForm(this, "/nstic-rp/get-state", initSuccess);
 	    });
 	    $("#userDataForm").submit(function(event){
-		// cancels the form submission
-		event.preventDefault();
-		submitForm(this, "/se-leg-rp/proofs", proofSuccess);
+			// cancels the form submission
+			event.preventDefault();
+			submitForm(this, "/nstic-rp/proofs", proofSuccess);
+		});
+	    $("#userInfoForm").submit(function(event){
+			// cancels the form submission
+			event.preventDefault();
+			submitForm(this, "/nstic-rp/userinfo", userinfoSuccess);
 	    });
 	    function initSuccess(callback){
-		$("#qrcode").html("<p><strong>QR code: </strong>" + callback["qr_code"] + "</p>");
-		$("#qr").html(callback["qr_img"]);
-		console.log("Success!");
+			$("#qrcode").html("<p><strong>QR code: </strong>" + callback["qr_code"] + "</p>");
+			$("#qr").html(callback["qr_img"]);
+			console.log("Success!");
 	    }
 	    function proofSuccess(callback){
-		var userData = $("#userData");
-		if (callback["proofs"].length > 0) {
-		    userData.empty();
-		    var elements = $();    
-		    $.each(callback["proofs"], function(index, item){
-			elements = elements.add("<p><pre>" + JSON.stringify(item, undefined, 4) + "</pre></p>");
-		    });		    
-		    userData.append(elements);
-		} else {
-		    userData.html("<p><pre>No data</pre></p>");
-		}
-		console.log("Success!");
+			var userData = $("#userData");
+			if (callback["proofs"].length > 0) {
+		    	userData.empty();
+		    	var elements = $();
+		    	$.each(callback["proofs"], function(index, item){
+					elements = elements.add("<p><pre>" + JSON.stringify(item, undefined, 4) + "</pre></p>");
+		    	});
+		    	userData.append(elements);
+			} else {
+		    	userData.html("<p><pre>No data</pre></p>");
+			}
+			console.log("Success!");
 	    }	    
+	    function userinfoSuccess(callback){
+			var userInfo = $("#userInfo");
+			console.log(callback);
+			userInfo.html("<p><pre>" + JSON.stringify(callback["userinfo"], undefined, 4) + "</pre></p>");
+			console.log("Success!");
+		}
 	    function submitForm(form, url, success_func){
-		$(form.closest("div")).find('#failure').addClass("hidden");
-		var data = {};
-		// Initiate Variables With Form Content
-		$.each(form.elements, function(i, v){
-			var input = $(v);
-		    data[input.attr("id")] = input.val();
-		    delete data["undefined"];
-		});
-		$("#userDataForm").find("input").val(data["eppn"]);
-		$.ajax({
-		    cache: false,
-		    url : url,
-		    crossDomain: true,
-		    type: "POST",
-		    dataType : "json",
-		    contentType : 'application/json',
-		    data : JSON.stringify(data),
-		    context : form,
-		    success : success_func,
-		    error: function(xhr, resp, text) {
-			console.log(xhr, resp, text);
-			failMessage = $(form.closest("div")).find('#failure');
-			failMessage.removeClass("hidden");
-			failMessage.find("p").append("<strong>" + text + "</strong> ");
-
-		    }
-		});
+			$(form.closest("div")).find('#failure').addClass("hidden");
+			var data = {};
+			// Initiate Variables With Form Content
+			$.each(form.elements, function(i, v){
+				var input = $(v);
+		    	data[input.attr("id")] = input.val();
+		    	delete data["undefined"];
+			});
+			$("#userDataForm").find("input").val(data["eppn"]);
+			$("#userInfoForm").find("input").val(data["eppn"]);
+			$.ajax({
+				cache: false,
+				url : url,
+				crossDomain: true,
+				type: "POST",
+				dataType : "json",
+				contentType : 'application/json',
+				data : JSON.stringify(data),
+				context : form,
+				success : success_func,
+				error: function(xhr, resp, text) {
+					console.log(xhr, resp, text);
+					failMessage = $(form.closest("div")).find('#failure');
+					failMessage.removeClass("hidden");
+					failMessage.find("p").append("<strong>" + text + "</strong> ");
+		    	}
+			});
 	    }
 	});
     </script>

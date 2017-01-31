@@ -62,13 +62,32 @@ services:
       - ../redis/etc:/etc/redis:ro
       - ../data/redis:/data
 
-  rp:
+  se_leg_rp:
     image: docker.sunet.se/se-leg/rp
     networks:
       dev:
         ipv4_address: 172.16.20.200
     volumes:
-      - ../rp/etc:/rp/etc:ro
+      - ../se-leg-rp/etc:/rp/etc:ro
+      - ../demo/etc/ssl/rootCA.pem:/rp/ssl/rootCA.pem:ro
+      - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
+    environment:
+      # http://click.pocoo.org/5/python3/
+      - "LC_ALL=C.UTF-8"
+      - "LANG=C.UTF-8"
+      - "PYTHONPATH=/rp/etc:/opt/se-leg/se-leg-rp:/rp/src"
+      - "REQUESTS_CA_BUNDLE=/rp/ssl/rootCA.pem"
+    depends_on:
+      - mongodb
+      - op
+
+  nstic_rp:
+    image: docker.sunet.se/se-leg/rp
+    networks:
+      dev:
+        ipv4_address: 172.16.20.201
+    volumes:
+      - ../nstic-rp/etc:/rp/etc:ro
       - ../demo/etc/ssl/rootCA.pem:/rp/ssl/rootCA.pem:ro
       - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
     environment:
@@ -91,7 +110,8 @@ services:
     ports:
       - "127.0.0.1:443:443"
     depends_on:
-      - rp
+      - se_leg_rp
+      - nstic_rp
       - op
     volumes:
       - ../demo/etc/demo.conf:/etc/nginx/sites-enabled/default:ro

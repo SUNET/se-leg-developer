@@ -2,8 +2,9 @@
 
 DEBUG = True
 SERVER_NAME = 'demo.seleg_dev'
-APPLICATION_ROOT = '/rp'
+APPLICATION_ROOT = '/se-leg-rp'
 PREFERRED_URL_SCHEME = 'https'
+VETTING_METHOD = 'se-leg'
 
 # ================#
 #  mongodb config #
