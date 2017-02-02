@@ -4,7 +4,9 @@ DEBUG = True
 SERVER_NAME = 'demo.seleg_dev'
 APPLICATION_ROOT = '/se-leg-rp'
 PREFERRED_URL_SCHEME = 'https'
-VETTING_METHOD = 'se-leg'
+
+# In which plugin package to find views
+PACKAGES = ['se_leg_rp.se_leg_plugin']
 
 # ================#
 #  mongodb config #

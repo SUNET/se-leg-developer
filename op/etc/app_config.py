@@ -13,6 +13,7 @@ PROVIDER_SIGNING_KEY = {
 }
 
 PROVIDER_SUBJECT_IDENTIFIER_HASH_SALT = 'test_salt'
+TEST_NONCE = ['test']
 
 DB_URI = 'mongodb://se_leg_op:se_leg_op_pw@mongodb'
 REDIS_URI = 'redis://redis'
