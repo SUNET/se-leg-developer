@@ -24,7 +24,7 @@ services:
       - "5000:5000"
     volumes:
       - ../op/etc:/op/etc:ro
-      - ../demo/etc/ssl/rootCA.pem:/op/ssl/rootCA.pem:ro
+      - ../demo/etc/ssl/ca-certificates.crt:/op/ssl/rootCA.pem:ro
       - ../data/op:/op/data
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
@@ -41,7 +41,7 @@ services:
         ipv4_address: 172.16.20.110
     volumes:
       - ../op/etc:/op/etc:ro
-      - ../demo/etc/ssl/rootCA.pem:/op/ssl/rootCA.pem:ro
+      - ../demo/etc/ssl/ca-certificates.crt:/op/ssl/rootCA.pem:ro
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       # http://click.pocoo.org/5/python3/
@@ -69,7 +69,7 @@ services:
         ipv4_address: 172.16.20.200
     volumes:
       - ../se-leg-rp/etc:/rp/etc:ro
-      - ../demo/etc/ssl/rootCA.pem:/rp/ssl/rootCA.pem:ro
+      - ../demo/etc/ssl/ca-certificates.crt:/rp/ssl/rootCA.pem:ro
       - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
     environment:
       # http://click.pocoo.org/5/python3/
@@ -88,7 +88,7 @@ services:
         ipv4_address: 172.16.20.201
     volumes:
       - ../nstic-rp/etc:/rp/etc:ro
-      - ../demo/etc/ssl/rootCA.pem:/rp/ssl/rootCA.pem:ro
+      - ../demo/etc/ssl/ca-certificates.crt:/rp/ssl/rootCA.pem:ro
       - ../sources/se-leg-rp:/opt/se-leg/se-leg-rp:ro
     environment:
       # http://click.pocoo.org/5/python3/
