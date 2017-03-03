@@ -18,6 +18,13 @@ PACKAGES = [
         'se_leg_op.plugins.se_leg_vetting_process',
         'se_leg_op.plugins.nstic_vetting_process'
 ]
+EXTENSIONS = ['se_leg_op.plugins.nstic_vetting_process.license_service']
 
 DB_URI = 'mongodb://se_leg_op:se_leg_op_pw@mongodb'
 REDIS_URI = 'redis://redis'
+
+# Yubico service config
+MOBILE_VERIFY_WSDL = 'https://s01.cloud-xip.miteksystems.com/Plugins/ProductServices.PhotoVerify/services/v1.0/PhotoVerifyService.svc?singleWsdl'
+MOBILE_VERIFY_USERNAME = 'username'
+MOBILE_VERIFY_PASSWORD = 'secret'
+MOBILE_VERIFY_TENANT_REF = 'tenant_ref'
