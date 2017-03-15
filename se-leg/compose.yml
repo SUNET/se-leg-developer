@@ -47,6 +47,7 @@ services:
       # http://click.pocoo.org/5/python3/
       - "LC_ALL=C.UTF-8"
       - "LANG=C.UTF-8"
+      - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
       - "PYTHONPATH=/op/etc:/opt/se-leg/se-leg-op/src:/op/src/src"
       - "REQUESTS_CA_BUNDLE=/op/ssl/rootCA.pem"
     depends_on:

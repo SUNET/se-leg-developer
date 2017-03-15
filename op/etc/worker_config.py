@@ -7,7 +7,7 @@ REDIS_URL = 'redis://redis'
 # REDIS_PASSWORD = 'very secret'
 
 # Queues to listen on
-QUEUES = ['authn_responses']
+QUEUES = ['authn_responses', 'mobile_verify_service_queue']
 
 # If you're using Sentry to collect your runtime exceptions, you can use this
 # to configure RQ for it in a single step
