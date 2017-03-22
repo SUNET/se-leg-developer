@@ -26,6 +26,7 @@ services:
       - ../op/etc:/op/etc:ro
       - ../demo/etc/ssl/ca-certificates.crt:/op/ssl/rootCA.pem:ro
       - ../data/op:/op/data
+      - ../op/logs:/var/log/op
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
@@ -42,6 +43,7 @@ services:
     volumes:
       - ../op/etc:/op/etc:ro
       - ../demo/etc/ssl/ca-certificates.crt:/op/ssl/rootCA.pem:ro
+      - ../op/logs/worker:/var/log/op
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
       # http://click.pocoo.org/5/python3/

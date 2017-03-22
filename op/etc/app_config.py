@@ -14,11 +14,14 @@ PROVIDER_SIGNING_KEY = {
 
 PROVIDER_SUBJECT_IDENTIFIER_HASH_SALT = 'test_salt'
 TEST_NONCE = ['test']
+
+# flask-registry config
 PACKAGES = [
         'se_leg_op.plugins.se_leg_vetting_process',
         'se_leg_op.plugins.nstic_vetting_process'
 ]
 EXTENSIONS = ['se_leg_op.plugins.nstic_vetting_process.license_service']
+USER_CFG = True
 
 DB_URI = 'mongodb://se_leg_op:se_leg_op_pw@mongodb'
 REDIS_URI = 'redis://redis'
