@@ -100,7 +100,8 @@
 		    url : url,
 		    crossDomain: true,
 		    type: "POST",
-		    data : data,
+		    data : JSON.stringify(data),
+            contentType: 'application/json',
 		    context : form,
 		    success : function(callback) {
 			$("#failure").addClass("hidden");

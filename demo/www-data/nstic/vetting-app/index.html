@@ -39,8 +39,12 @@
 			<label for="qrcode">QR code</label>
 			<input type="text" class="form-control" name="qrcode" id="qrcode" placeholder="qrcode" data-toggle="modal" data-target="#qrModal">
 			<input type="file" class="hidden" id="qrImage" accept="image/*">
-			<label for="data">data</label>
-			<input type="text" class="form-control" name="data" id="data" placeholder="data">
+			<label for="mibi">Mibi data</label>
+			<input type="text" class="form-control" name="mibi" id="mibi" placeholder="mibi data">
+			<label for="encodedData">Front image</label>
+			<input type="text" class="form-control" name="encodedData" id="encodedData" placeholder="base64 encoded front image">
+			<label for="barcode">Barcode</label>
+			<input type="text" class="form-control" name="barcode" id="barcode" placeholder="barcode data">
 		    </div>
 		    <button type="submit" class="btn btn-default">Submit</button>
 		</form>
@@ -100,7 +104,8 @@
 		    url : url,
 		    crossDomain: true,
 		    type: "POST",
-		    data : data,
+		    data : JSON.stringify(data),
+            contentType: 'application/json',
 		    context : form,
 		    success : function(callback) {
 			$("#failure").addClass("hidden");
