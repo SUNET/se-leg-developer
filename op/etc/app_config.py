@@ -31,3 +31,10 @@ MOBILE_VERIFY_WSDL = 'https://s01.cloud-xip.miteksystems.com/Plugins/ProductServ
 MOBILE_VERIFY_USERNAME = 'username'
 MOBILE_VERIFY_PASSWORD = 'secret'
 MOBILE_VERIFY_TENANT_REF = 'tenant_ref'
+
+# se-leg service config
+SELEG_VETTING_APPS = {
+    'RA-APP-1': {
+        'secret': 'secret'
+    }
+}

@@ -1,0 +1,36 @@
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    logger="shibd.logger"
+    clockSkew="1800">
+
+    <ApplicationDefaults entityID="https://rasp.se-leg.docker/shibboleth"
+        REMOTE_USER="eppn persistent-id targeted-id"
+        signing="true">
+
+        <Sessions lifetime="28800" timeout="3600" relayState="ss:mem"
+                  checkAddress="false" handlerSSL="true" cookieProps="https">
+            <SSO entityID="https://idp.se-leg.docker/idp.xml">SAML2 SAML1</SSO>
+            <Logout>SAML2 Local</Logout>
+            <Handler type="MetadataGenerator" Location="/Metadata" signing="true"/>
+            <Handler type="Status" Location="/Status"/>
+            <Handler type="Session" Location="/Session" showAttributeValues="true"/>
+            <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
+        </Sessions>
+
+        <Errors supportContact="noc@example.net"
+            helpLocation="/"
+            styleSheet="/shibboleth-sp/main.css"/>
+
+        <MetadataProvider type="XML" path="idp.xml" />
+
+        <AttributeExtractor type="XML" validate="true" reloadChanges="false" path="attribute-map.xml"/>
+        <AttributeResolver type="Query" subjectMatch="true"/>
+        <CredentialResolver type="File" key="/etc/ssl/private/sp-key.pem" certificate="/etc/ssl/certs/sp-cert.pem"/>
+    </ApplicationDefaults>
+
+    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+</SPConfig>

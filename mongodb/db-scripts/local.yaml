@@ -1,0 +1,60 @@
+---
+mongo_databases:
+
+  admin:
+    collections: []
+    access:
+      backup:
+        - 'backup'
+      clusterMonitor:
+        - 'nagios'
+
+  seleg_op:
+    collections:
+      - 'access_tokens'
+      - 'authn_requests'
+      - 'authz_codes'
+      - 'clients'
+      - 'refresh_tokens'
+      - 'subject_identifiers'
+      - 'userinfo'
+      - 'yubico_states'
+    access:
+      readWrite:
+        - 'se_leg_op'
+    initial_data:
+      clients:
+        - lookup_key: 'client1'
+          data:
+            response_types:
+              - 'code'
+            redirect_uris:
+              - 'https://demo.seleg_dev/se-leg-rp/authorization-response'
+            client_secret: 'abcdef'
+        - lookup_key: 'client2'
+          data:
+            response_types:
+              - 'code'
+            redirect_uris:
+              - 'https://demo.seleg_dev/nstic-rp/authorization-response'
+            client_secret: 'abcdef'
+            vetting_policy: 'POST_AUTH'
+
+  se_leg_rp:
+    collections:
+      - 'proofing_data'
+      - 'proofs'
+    access:
+      readWrite:
+        - 'se_leg_rp'
+
+  se_leg_ra:
+    collections:
+      - 'users'
+    access:
+      readWrite:
+        - 'se_leg_ra'
+    initial_data:
+      users:
+        - eppn: 'upper-eppn@se-leg.docker'
+        - eppn: 'testuser@se-leg.docker'

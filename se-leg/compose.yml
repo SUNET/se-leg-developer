@@ -8,6 +8,7 @@ services:
       - 27017
     networks:
       dev:
+        ipv4_address: 172.16.20.10
     volumes:
       - ../data/mongodb:/data
       - ../mongodb/etc:/opt/eduid/etc:ro
@@ -103,6 +104,63 @@ services:
       - mongodb
       - op
 
+  ra_sp:
+    container_name: rasp.se-leg.docker
+    image: docker.sunet.se/sp-swamid
+    networks:
+      dev:
+        ipv4_address: 172.16.20.204
+    expose:
+      - 80
+      - 443
+    volumes:
+      - ../se-leg-ra-sp/etc/apache2/sites-available:/etc/apache2/sites-available:ro
+      - ../se-leg-ra-sp/etc/shibboleth/shibboleth2.xml:/etc/shibboleth/shibboleth2.xml:ro
+      - ../se-leg-ra-sp/etc/shibboleth/idp.xml:/etc/shibboleth/idp.xml:ro
+      - ../se-leg-ra-sp/etc/ssl:/etc/ssl:ro
+      - ../se-leg-ra-sp/etc/shibboleth/shibd.logger:/etc/shibboleth/shibd.logger:ro
+      - ../se-leg-ra-sp/log:/var/log/shibboleth
+      - ra-static-volume:/ra/src/se_leg_ra/static
+    environment:
+      - "HOSTNAME=rasp.se-leg.docker"
+      - "SP_HOSTNAME=rasp.se-leg.docker"
+      - "DEFAULT_LOGIN="
+      - "METADATA_SIGNER="
+    depends_on:
+      - idp
+      - ra
+
+  ra:
+    image: docker.sunet.se/se-leg/ra
+    networks:
+      dev:
+    expose:
+      - 5000
+    volumes:
+      - ../se-leg-ra/etc/app_config.py:/ra/etc/app_config.py
+      - ../demo/etc/ssl/ca-certificates.crt:/ra/ssl/rootCA.pem:ro
+      - ra-static-volume:/ra/src/se_leg_ra/static
+      - ../sources/se-leg-ra:/opt/se-leg/se-leg-ra:ro
+    environment:
+      - "PYTHONPATH=/opt/se-leg/se-leg-ra:/rp/src"
+      - "REQUESTS_CA_BUNDLE=/ra/ssl/rootCA.pem"
+    depends_on:
+      - mongodb
+
+  idp:
+    container_name: idp.se-leg.docker
+    image: docker.sunet.se/sunet/docker-pysaml2-idp
+    expose:
+      - 443
+    networks:
+      dev:
+        ipv4_address: 172.16.20.205
+    volumes:
+      - ../pysaml2-idp/etc/:/opt/pysaml2-idp/etc/
+      - ../pysaml2-idp/log/idp.log:/tmp/src/pysaml2/example/idp2/idp.log
+    environment:
+      - "DATA_DIR=/opt/pysaml2-idp/etc/"
+
   demo:
     image: docker.sunet.se/eduid/nginx
     expose:
@@ -120,6 +178,9 @@ services:
       - ../demo/etc/demo.conf:/etc/nginx/sites-enabled/default:ro
       - ../demo/etc/ssl/:/etc/ssl/:ro
       - ../demo/www-data/:/var/www/:ro
+
+volumes:
+  ra-static-volume:
 
 networks:
   dev:
