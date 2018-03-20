@@ -142,7 +142,7 @@ services:
       - ra-static-volume:/ra/src/se_leg_ra/static
       - ../sources/se-leg-ra:/opt/se-leg/se-leg-ra:ro
     environment:
-      - "PYTHONPATH=/opt/se-leg/se-leg-ra:/rp/src"
+      - "PYTHONPATH=/opt/se-leg/se-leg-ra:/ra/src"
       - "REQUESTS_CA_BUNDLE=/ra/ssl/rootCA.pem"
     depends_on:
       - mongodb
