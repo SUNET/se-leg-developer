@@ -120,7 +120,7 @@ services:
       - ../se-leg-ra-sp/etc/ssl:/etc/ssl:ro
       - ../se-leg-ra-sp/etc/shibboleth/shibd.logger:/etc/shibboleth/shibd.logger:ro
       - ../se-leg-ra-sp/log:/var/log/shibboleth
-      - ra-static-volume:/ra/src/se_leg_ra/static
+      - ra-static-volume:/ra/static
     environment:
       - "HOSTNAME=rasp.se-leg.docker"
       - "SP_HOSTNAME=rasp.se-leg.docker"
@@ -139,7 +139,7 @@ services:
     volumes:
       - ../se-leg-ra/etc/app_config.py:/ra/etc/app_config.py
       - ../demo/etc/ssl/ca-certificates.crt:/ra/ssl/rootCA.pem:ro
-      - ra-static-volume:/ra/src/se_leg_ra/static
+      - ra-static-volume:/ra/static
       - ../sources/se-leg-ra:/opt/se-leg/se-leg-ra:ro
     environment:
       - "PYTHONPATH=/opt/se-leg/se-leg-ra:/ra/src"
