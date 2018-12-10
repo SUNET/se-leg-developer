@@ -67,7 +67,7 @@ services:
       - ../op/etc:/op/etc:ro
       - ../sources/se-leg-op:/opt/se-leg/se-leg-op:ro
     environment:
-      - "SE_LEG_PROVIDER_SETTINGS=/op/etc/app_config.py"
+      - "RQ_REDIS_HOST=redis"
       - "PYTHONPATH=/op/etc:/opt/se-leg/se-leg-op/src:/op/src/src"
     depends_on:
       - op
@@ -82,7 +82,7 @@ services:
     networks:
       dev:
     volumes:
-      - ../redis/etc:/etc/redis:ro
+      - ../redis/etc:/etc/redis
       - ../data/redis:/data
 
   se_leg_rp:

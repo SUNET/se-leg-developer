@@ -13,7 +13,7 @@ PROVIDER_SIGNING_KEY = {
 }
 
 PROVIDER_SUBJECT_IDENTIFIER_HASH_SALT = 'test_salt'
-TEST_NONCE = ['test']
+TEST_NONCE = ['b19d568b-abf0-4c57-afe9-78b1f2bb6ff5']
 
 # flask-registry config
 PACKAGES = [
@@ -38,3 +38,5 @@ SELEG_VETTING_APPS = {
         'secret': 'secret'
     }
 }
+SELEG_AUTHN_RESPONSE_DELAY = 10  # seconds
+

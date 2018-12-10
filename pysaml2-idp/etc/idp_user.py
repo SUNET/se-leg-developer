@@ -5,6 +5,7 @@ USERS = {
         "eduPersonAffiliation": "student",
         "eduPersonScopedAffiliation": "student@se-leg.docker",
         "eduPersonPrincipalName": "testuser@se-leg.docker",
+        "eduPersonAssurance": "http://www.swamid.se/policy/assurance/al2",
         "uid": "testuser",
         "eduPersonTargetedID": ["one!for!all"],
         "c": "SE",
