@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 USERS = {
     "testuser": {
-        "sn": "Testsson",
-        "givenName": "Test",
+        "sn": "Tästsson",
+        "givenName": "Täst",
         "eduPersonAffiliation": "student",
         "eduPersonScopedAffiliation": "student@se-leg.docker",
         "eduPersonPrincipalName": "testuser@se-leg.docker",
@@ -17,7 +19,7 @@ USERS = {
         "noreduorgacronym": "noreduorgacronym",
         "schacHomeOrganization": "se-leg.docker",
         "email": "test@example.com",
-        "displayName": "Test Testsson",
+        "displayName": "Täst Tästsson",
         "labeledURL": "http://www.example.com/test My homepage",
         "norEduPersonNIN": "SE199012315555",
         "postaladdress": "postaladdress",

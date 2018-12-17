@@ -136,6 +136,8 @@ services:
       - ../se-leg-ra-sp/etc/apache2/sites-available:/etc/apache2/sites-available:ro
       - ../se-leg-ra-sp/etc/shibboleth/shibboleth2.xml:/etc/shibboleth/shibboleth2.xml:ro
       - ../se-leg-ra-sp/etc/shibboleth/idp.xml:/etc/shibboleth/idp.xml:ro
+      - ../se-leg-ra-sp/etc/shibboleth/sandbox-metadata-cert.crt:/etc/shibboleth/sandbox-metadata-cert.crt:ro
+      - ../se-leg-ra-sp/etc/shibboleth/attribute-map.xml:/etc/shibboleth/attribute-map.xml:ro
       - ../se-leg-ra-sp/etc/ssl:/etc/ssl:ro
       - ../se-leg-ra-sp/etc/shibboleth/shibd.logger:/etc/shibboleth/shibd.logger:ro
       - ../se-leg-ra-sp/log:/var/log/shibboleth

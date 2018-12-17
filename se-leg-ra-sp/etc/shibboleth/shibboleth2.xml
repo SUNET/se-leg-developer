@@ -27,6 +27,10 @@
                 <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
             </SessionInitiator>
 
+            <SessionInitiator type="Chaining" Location="/Login/swedenconnect" id="idp" entityID="http://dev.test.swedenconnect.se/idp" relayState="cookie">
+                <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
+            </SessionInitiator>
+
         </Sessions>
 
         <Errors supportContact="noc@example.net"
@@ -34,6 +38,11 @@
             styleSheet="/shibboleth-sp/main.css"/>
 
         <MetadataProvider type="XML" path="idp.xml" />
+
+        <MetadataProvider type="XML" uri="http://eid.svelegtest.se/metadata/feed"
+           backingFilePath="swedenconnect-sandbox.xml" reloadInterval="300">
+           <SignatureMetadataFilter certificate="sandbox-metadata-cert.crt"/>
+        </MetadataProvider>
 
         <AttributeExtractor type="XML" validate="true" reloadChanges="false" path="attribute-map.xml"/>
         <AttributeResolver type="Query" subjectMatch="true"/>

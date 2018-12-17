@@ -58,3 +58,4 @@ mongo_databases:
       users:
         - eppn: 'upper-eppn@se-leg.docker'
         - eppn: 'testuser@se-leg.docker'
+        - eppn: '191704109279'
